@@ -1,3 +1,4 @@
+from flask import Flask, jsonify
 import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 from googleapiclient.discovery import build
@@ -6,21 +7,18 @@ from openai import OpenAI
 import time
 
 '''
-NOTES:
-
-Proposed Architecture: Video ID -> Transcript -> Preprocessing -> ChatGPT
-
-Example URL: https://www.youtube.com/watch?v=VIDEO_ID_HERE
+Flask is a web framework that allows programmers to build web applications
 '''
+
+#WSGI - Web Server Gateway Interface
+app = Flask(__name__)
 
 client = OpenAI(api_key='...')
 MODEL = "gpt-4o-mini"
-# client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-# API_KEY = os.getenv('API_KEY')
+
 API_KEY = '...'
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
-
 
 def search_videos(query, max_results=1, order='date'):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=API_KEY)
@@ -57,14 +55,42 @@ def chat_with_chatgpt(transcript):
 	message = response.choices[0].message
 	return message
 
-# Example usage
-if __name__ == "__main__":
-    query = input("What video would you like a transcript for?")
-    video_ids = search_videos(query)
-    transcript = youtube_transcript(video_ids[0])
-    # print("Video ID:", video_ids)
-    # print(f"Checking that video id is correct: {video_ids[0] == 'L2xo8EmzJuw'}")
-    # print(f"Transcripts: {transcript}")
-    final_output = chat_with_chatgpt(transcript)
+@app.route("/grab_transcript", methods=['GET'])
+def grab_transcript():
+    transcript = []
+    raw_transcript = youtube_transcript(search_videos('What are the best keybinds on csgo?')[0])
+    for dictionary in raw_transcript:
+        transcript.append(dictionary['text'])
+    chat_gpt_response = chat_with_chatgpt(transcript)
+    return chat_gpt_response.content
+    
 
-    print(f"""Here is a comprehensive summary of the transcript: {final_output}""")
+
+if __name__ == "__main__":
+    app.run(debug = True, host = "0.0.0.0", port = 3000)
+
+
+
+
+
+# print(chat_with_chatgpt('Hello World!'))
+# """
+# ChatCompletionMessage(content='The transcript simply begins with the phrase "Hello World!" 
+#                             which is often used as a basic expression or introduction in programming and technology-related contexts. 
+#                             It signifies the starting point for many coding tutorials and serves as a friendly greeting to viewers. 
+#                             The brevity of the transcript suggests it sets the stage for further content.', 
+# 					    refusal=None, 
+# 						role='assistant', 
+# 						function_call=None, 
+# 						tool_calls=None)
+# """
+
+
+
+'''
+user pass in query (best opening move in chess)
+
+query gets sent to YouTube API -> transcript 
+
+transcript -> model (ChatGPT) -> summarize text
+'''
