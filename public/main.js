@@ -1,5 +1,5 @@
 document.getElementById('predict-button').addEventListener('click', async function () {
-    const response = await fetch('http://127.0.0.1:5000/generate_random_number', {
+    const response = await fetch('https://youtube-summarizer-vi8d.onrender.com/generate_random_number', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         });
