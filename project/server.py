@@ -17,5 +17,6 @@ allow_headers=["Content-Type"])
 def generate_random_number():
     return jsonify({'random_number': random.randint(1, 1000)})
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run()
 
