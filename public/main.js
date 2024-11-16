@@ -1,6 +1,7 @@
 document.getElementById('predict-button').addEventListener('click', async function (event) {
     event.preventDefault();
     const query = document.getElementById('query').value;
+    console.log(query)
 
     try {
         const response = await fetch('https://youtube-summarizer-vi8d.onrender.com/get_transcript', {

@@ -9,8 +9,7 @@ app = Flask(__name__)
 
 CORS(app, origins=[
     'https://summarizer-c3229.firebaseapp.com',
-    'https://summarizer-c3229.web.app',
-    'http://localhost:8000'
+    'https://summarizer-c3229.web.app'
 ],
 methods=["GET", "POST", "OPTIONS"],
 allow_headers=["Content-Type"])
@@ -42,13 +41,13 @@ def grab_transcript(raw_transcript):
 
 @app.route('/get_transcript', methods=['POST'])
 def grab_results():
-    data = request.get_json()
-    query = data.get('query', '')
-
-    if not query:
-        return jsonify({'error': 'Query is required'}), 400
-
     try:
+        data = request.get_json()
+        query = data.get('query', '')
+        print(query)
+        if not query:
+            return jsonify({'error': 'Query is required'}), 400
+
         video_id = search_videos(query)
         if not video_id:
             return jsonify({'error': 'No videos found for the query'}), 404
@@ -56,7 +55,10 @@ def grab_results():
         transcript = youtube_transcript(video_id)
         return jsonify({'transcript': grab_transcript(transcript)})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        app.logger.error(f"Error processing request: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000)
+    app.run(host="0.0.0.0", port=8000)
