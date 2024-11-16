@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import requests
 from youtube_transcript_api import YouTubeTranscriptApi
 from googleapiclient.discovery import build
@@ -13,10 +14,18 @@ Flask is a web framework that allows programmers to build web applications
 #WSGI - Web Server Gateway Interface
 app = Flask(__name__)
 
-client = OpenAI(api_key='...')
+CORS(app, origins=[
+    'https://summarizer-c3229.firebaseapp.com',
+    'https://summarizer-c3229.web.app',
+    'http://localhost:8000'
+],
+methods=["GET", "POST", "OPTIONS"],
+allow_headers=["Content-Type"])
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 MODEL = "gpt-4o-mini"
 
-API_KEY = '...'
+API_KEY = os.getenv('API_KEY')
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
@@ -34,7 +43,7 @@ def search_videos(query, max_results=1, order='date'):
     # Extract video IDs from the response
     video_ids = [item['id']['videoId'] for item in search_response['items']]
 
-    return video_ids
+    return video_ids[0]
 
 def youtube_transcript(video_id):
     return YouTubeTranscriptApi.get_transcript(video_id)
@@ -55,42 +64,17 @@ def chat_with_chatgpt(transcript):
 	message = response.choices[0].message
 	return message
 
-@app.route("/grab_transcript", methods=['GET'])
-def grab_transcript():
-    transcript = []
-    raw_transcript = youtube_transcript(search_videos('What are the best keybinds on csgo?')[0])
+def grab_transcript(raw_transcript):
+    filtered_transcript = []
     for dictionary in raw_transcript:
-        transcript.append(dictionary['text'])
-    chat_gpt_response = chat_with_chatgpt(transcript)
-    return chat_gpt_response.content
+        filtered_transcript.append(dictionary['text'])
+    filtered_transcript = ' '.join(filtered_transcript)
+    return filtered_transcript
     
-
+@app.route('/get_transcript')
+def grab_results():
+    transcript = youtube_transcript(search_videos('How to play top lane in league of legends', max_results=1, order='date'))
+    return jsonify({'transcript':grab_transcript(transcript)})
 
 if __name__ == "__main__":
-    app.run(debug = True, host = "0.0.0.0", port = 3000)
-
-
-
-
-
-# print(chat_with_chatgpt('Hello World!'))
-# """
-# ChatCompletionMessage(content='The transcript simply begins with the phrase "Hello World!" 
-#                             which is often used as a basic expression or introduction in programming and technology-related contexts. 
-#                             It signifies the starting point for many coding tutorials and serves as a friendly greeting to viewers. 
-#                             The brevity of the transcript suggests it sets the stage for further content.', 
-# 					    refusal=None, 
-# 						role='assistant', 
-# 						function_call=None, 
-# 						tool_calls=None)
-# """
-
-
-
-'''
-user pass in query (best opening move in chess)
-
-query gets sent to YouTube API -> transcript 
-
-transcript -> model (ChatGPT) -> summarize text
-'''
+    app.run(host = "0.0.0.0", port = 3000)
