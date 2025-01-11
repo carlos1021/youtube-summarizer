@@ -4,7 +4,7 @@ document.getElementById('predict-button').addEventListener('click', async functi
     console.log(query)
 
     try {
-        const response = await fetch('https://youtube-summarizer-vi8d.onrender.com/get_transcript', {
+        const response = await fetch('http://127.0.0.1:8000/get_transcript', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query }), // Send query in the request body

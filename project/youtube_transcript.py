@@ -19,7 +19,6 @@ client = OpenAI(api_key='...')
 MODEL = "gpt-4o-mini"
 # client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 # API_KEY = os.getenv('API_KEY')
-API_KEY = 'AIzaSyBHS8clojUyrHriGSWsegpPiqW_O5-VXhs'
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 

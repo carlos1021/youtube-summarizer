@@ -1,8 +1,8 @@
+"""CODING EXAMPLE: WORKING WITH OPENAI API"""
 import os
 from openai import OpenAI
 import time
 
-'''Object-oriented programming'''
 
 MODEL = "gpt-4o-mini"
 # client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
