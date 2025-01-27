@@ -21,7 +21,7 @@ import openai
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
-CORS(app, origins=["*"], allow_headers=["Content-Type"], methods=["GET", "POST", "OPTIONS"])
+CORS(app, origins=["https://summarizer-c3229.web.app", 'https://summarizer-c3229.firebaseapp.com'], allow_headers=["Content-Type"], methods=["GET", "POST", "OPTIONS"])
 
 # OAuth-related global data
 CLIENT_SECRET_PATH = "client_secret.json"  # Where we'll store the user's uploaded JSON
@@ -33,7 +33,7 @@ YOUTUBE_API_VERSION = "v3"
 MODEL = "gpt-4"
 
 # Set your own redirect URI. It must match what's set in your Google Cloud OAuth client.
-REDIRECT_URI = "https://<YOUR_DOMAIN_OR_LOCALHOST>/oauth2callback"
+REDIRECT_URI = "https://youtube-summarizer-vi8d.onrender.com/oauth2callback"
 
 # LangChain resources
 llm = ChatOpenAI(model=MODEL)
