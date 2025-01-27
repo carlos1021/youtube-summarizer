@@ -68,29 +68,96 @@ https://www.tooplate.com/view/2119-gymso-fitness
      <!-- HERO -->
      <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
 
-            <div class="bg-overlay"></div>
-
-               <div class="container">
-                    <div class="row">
-
-                         <div class="col-lg-8 col-md-10 mx-auto col-12">
-                              <div class="hero-text mt-5 text-center">
-
-                                    <h6 data-aos="fade-up" data-aos-delay="300">improve your game knowledge</h6>
-
-                                    <h1 class="text-white" data-aos="fade-up" data-aos-delay="500">Try Out The Model Below</h1>
-                                    <form>
-                                        <label for="query" style="color: aliceblue;">Enter your search query:</label><br>
-                                        <input type="text" id="query" name="fname"><br>
-                                        <button type="button" id="predict-button">Press me!</button>
-                                    </form>
-                                    <p id="uploadMessage"></p>
-                              </div>
-                         </div>
-
+        <div class="bg-overlay"></div>
+    
+        <div class="container">
+            <div class="row">
+    
+                <div class="col-lg-8 col-md-10 mx-auto col-12">
+                    <div class="hero-text mt-5 text-center">    
+                        <div class="form-container" data-aos="fade-up" data-aos-delay="500">
+                            <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Your Search Starts Here</h1>
+                            <form>
+                                <label for="query">Enter your search query:</label>
+                                <input type="text" id="query" name="fname" placeholder="Type something...">
+                                <button type="button" id="predict-button">Press me!</button>
+                            </form>
+                            <p id="uploadMessage"></p>
+                        </div>
+    
                     </div>
-               </div>
-     </section>
+                </div>
+    
+            </div>
+        </div>
+    
+    </section>
+
+    <style>
+        .form-container {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(51, 51, 51, 0.85); /* Semi-transparent background */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    
+        .form-container h1 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+    
+        label {
+            font-size: 1rem;
+            color: aliceblue;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+    
+        input[type="text"] {
+            width: 100%;
+            max-width: 500px;
+            padding: 0.75rem;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #222;
+            color: aliceblue;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+    
+        input[type="text"]:focus {
+            outline: none;
+            border-color: aliceblue;
+            box-shadow: 0 0 5px aliceblue;
+        }
+    
+        button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: aliceblue;
+            background-color: #b01fca;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover {
+            background-color: #5f4cf4;
+        }
+    
+        button:active {
+            transform: scale(0.98);
+        }
+    
+        p#uploadMessage {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+    </style>
 
      <!-- SCRIPTS -->
      <script src="js/jquery.min.js"></script>
