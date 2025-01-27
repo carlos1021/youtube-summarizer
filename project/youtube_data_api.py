@@ -59,14 +59,8 @@ def get_authenticated_service():
             client_config = json.loads(client_secret)
             flow = InstalledAppFlow.from_client_config(client_config, SCOPES)
 
-            # # Set redirect_uri based on environment
-            # if os.getenv('ENVIRONMENT') == 'production':
-            #     redirect_uri = 'https://youtube-summarizer-vi8d.onrender.com/oauth2callback'
-            # else:
-            #     redirect_uri = 'http://localhost:7000/oauth2callback'
-
-            redirect_uri = 'https://youtube-summarizer-vi8d.onrender.com/oauth2callback'
-            creds = flow.run_local_server(port=7000, redirect_uri=redirect_uri)
+            # Run the OAuth flow without explicitly passing redirect_uri
+            creds = flow.run_local_server(port=7000)
         
         # Save the credentials for future use
         with open('token.json', 'w') as token:
