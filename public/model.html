@@ -67,56 +67,30 @@ https://www.tooplate.com/view/2119-gymso-fitness
 
      <!-- HERO -->
      <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
+
         <div class="bg-overlay"></div>
+    
         <div class="container">
             <div class="row">
+    
                 <div class="col-lg-8 col-md-10 mx-auto col-12">
-                    <div class="hero-text mt-5 text-center">
-                        <!-- Upload Client Secret Section -->
-                        <div class="form-container" data-aos="fade-up" data-aos-delay="500">
-                            <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Upload Your OAuth Client Secret</h1>
-                            <form>
-                                <label class="text-white" for="client-secret-file">Select your client_secret.json:</label>
-                                <input type="file" id="client-secret-file" accept=".json">
-                                <button type="button" id="upload-client-secret-btn" class="btn btn-primary mt-3">Upload</button>
-                            </form>
-                            <p id="uploadClientSecretMessage" class="text-white mt-3"></p>
-                        </div>
-    
-                        <hr class="my-5 bg-light">
-    
-                        <!-- Start OAuth Section -->
-                        <div class="form-container" data-aos="fade-up" data-aos-delay="500">
-                            <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Authenticate Your Account</h1>
-                            <button type="button" id="start-oauth-btn" class="btn btn-warning mt-3">Start OAuth</button>
-                            <p id="oauthMessage" class="text-white mt-3"></p>
-                        </div>
-    
-                        <hr class="my-5 bg-light">
-    
-                        <!-- Check Authentication Status Section -->
-                        <div class="form-container" data-aos="fade-up" data-aos-delay="500">
-                            <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Check Authentication Status</h1>
-                            <button type="button" id="check-auth-btn" class="btn btn-success mt-3">Check Status</button>
-                            <p id="authStatus" class="text-white mt-3"></p>
-                        </div>
-    
-                        <hr class="my-5 bg-light">
-    
-                        <!-- Search and Summarize Section -->
+                    <div class="hero-text mt-5 text-center">    
                         <div class="form-container" data-aos="fade-up" data-aos-delay="500">
                             <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Your Search Starts Here</h1>
                             <form>
-                                <label class="text-white" for="queryInput">Enter your search query:</label>
-                                <input type="text" id="queryInput" class="form-control mt-2" placeholder="Type something...">
-                                <button type="button" id="summarize-btn" class="btn btn-primary mt-3">Summarize</button>
+                                <label for="query">Enter your search query:</label>
+                                <input type="text" id="query" name="fname" placeholder="Type something...">
+                                <button type="button" id="predict-button">Press me!</button>
                             </form>
-                            <p id="summaryResult" class="text-white mt-3"></p>
+                            <p id="uploadMessage"></p>
                         </div>
+    
                     </div>
                 </div>
+    
             </div>
         </div>
+    
     </section>
 
     <style>

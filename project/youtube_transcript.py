@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 import os
 from openai import OpenAI
 import time
+from dotenv import load_dotenv
 
 '''
 NOTES:
@@ -14,11 +15,11 @@ Proposed Architecture: Video ID -> Transcript -> Preprocessing -> ChatGPT
 
 Example URL: https://www.youtube.com/watch?v=VIDEO_ID_HERE
 '''
-
-client = OpenAI(api_key='...')
+load_dotenv()
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+API_KEY = os.getenv('API_KEY')
 MODEL = "gpt-4o-mini"
-# client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
-# API_KEY = os.getenv('API_KEY')
+client = OpenAI()
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
