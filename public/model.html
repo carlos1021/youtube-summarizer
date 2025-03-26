@@ -1,181 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>YouTube Summarizer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-     <title>YouTube Summarizer</title>
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/aos.css">
+  <link rel="stylesheet" href="css/tooplate-gymso-style.css">
 
-     <meta charset="UTF-8">
-     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-     <meta name="description" content="">
-     <meta name="keywords" content="">
-     <meta name="author" content="">
-     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-     <link rel="stylesheet" href="css/bootstrap.min.css">
-     <link rel="stylesheet" href="css/font-awesome.min.css">
-     <link rel="stylesheet" href="css/aos.css">
-
-     <!-- MAIN CSS -->
-     <link rel="stylesheet" href="css/tooplate-gymso-style.css">
-
-     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script> -->
-
-<!--
-Tooplate 2119 Gymso Fitness
-https://www.tooplate.com/view/2119-gymso-fitness
--->
+  <style>
+    .form-container {
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: rgba(51, 51, 51, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    label, input, button, p {
+      font-size: 1rem;
+      color: aliceblue;
+    }
+    input[type="text"] {
+      width: 100%;
+      max-width: 500px;
+      padding: 0.75rem;
+      border: 1px solid #666;
+      border-radius: 5px;
+      background-color: #222;
+      color: aliceblue;
+      margin-bottom: 1rem;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: aliceblue;
+      box-shadow: 0 0 5px aliceblue;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      color: aliceblue;
+      background-color: #b01fca;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5f4cf4;
+    }
+    #log-container {
+      background: #222;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      font-family: monospace;
+      font-size: 0.9rem;
+    }
+    #chat-history {
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      border-radius: 5px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    .chat-message {
+      margin-bottom: 0.75rem;
+    }
+    .chat-message.user {
+      text-align: right;
+    }
+    .chat-message.assistant {
+      text-align: left;
+    }
+    .chat-message span {
+      display: inline-block;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+    }
+    .chat-message.user span {
+      background: #5f4cf4;
+    }
+    .chat-message.assistant span {
+      background: #b01fca;
+    }
+  </style>
 </head>
+
 <body data-spy="scroll" data-target="#navbarNav" data-offset="50">
 
-    <!-- MENU BAR -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
+  <!-- MENU BAR -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Youtube Summarizer</a>
+    </div>
+  </nav>
 
-            <a class="navbar-brand" href="index.html">Youtube Summarizer</a>
+  <!-- HERO -->
+  <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
+    <div class="bg-overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto col-12">
+          <div class="hero-text mt-5 text-center">
+            <div class="form-container" data-aos="fade-up" data-aos-delay="300">
+              <h1 class="text-white" data-aos="fade-up" data-aos-delay="500">Your Search Starts Here</h1>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+              <div id="log-container" style="display: none;" data-aos="fade-up" data-aos-delay="600"></div>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-lg-auto">
-                    <li class="nav-item">
-                        <a href="index.html" class="nav-link smoothScroll">Home</a>
-                    </li>
+              <form id="search-form" data-aos="fade-up" data-aos-delay="700">
+                <label for="topic">Video Game + Topic:</label>
+                <input type="text" id="topic" placeholder="e.g. Jett Valorant, Mid Lane League">
+                <button type="submit">Search Guide</button>
+              </form>
 
-                    <li class="nav-item">
-                        <a href="about.html" class="nav-link smoothScroll">About Us</a>
-                    </li>
+              <div id="loading" style="display:none;">⏳ Loading... Please wait</div>
+              <div id="video-container" style="margin-top: 1rem;"></div>
 
-                    <li class="nav-item">
-                        <a href="model.html" class="nav-link smoothScroll">Try Out Model</a>
-                    </li>
-                </ul>
+              <div id="chat-container" style="display:none; margin-top: 1rem;" data-aos="fade-up" data-aos-delay="800">
+                <div id="chat-history"></div>
+                <label for="question">Ask a question:</label>
+                <input type="text" id="question" placeholder="Ask your question...">
+                <button id="ask-button">Ask</button>
+              </div>
 
-                <!-- <ul class="social-icon ml-lg-3">
-                    <li><a href="https://fb.com/tooplate" class="fa fa-facebook"></a></li>
-                    <li><a href="#" class="fa fa-twitter"></a></li>
-                    <li><a href="#" class="fa fa-instagram"></a></li>
-                </ul> -->
+              <p id="uploadMessage"></p>
             </div>
-
+          </div>
         </div>
-    </nav>
+      </div>
+    </div>
+  </section>
 
-
-     <!-- HERO -->
-     <section class="hero d-flex flex-column justify-content-center align-items-center" id="home">
-
-        <div class="bg-overlay"></div>
-    
-        <div class="container">
-            <div class="row">
-    
-                <div class="col-lg-8 col-md-10 mx-auto col-12">
-                    <div class="hero-text mt-5 text-center">    
-                        <div class="form-container" data-aos="fade-up" data-aos-delay="500">
-                            <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Your Search Starts Here</h1>
-                            <form id="search-form">
-                                <label for="topic">Video Game + Topic:</label>
-                                <input type="text" id="topic" placeholder="Search... (e.g.: Jett Valorant; Mid Lane League of Legends)">
-                                <button type="submit">Search Guide</button>
-                            </form>
-                            
-                            <div id="loading" style="display:none;">⏳ Loading... Please wait</div>
-                            <div id="video-container" style="margin-top: 1rem;"></div>
-                            
-                            <div id="chat-container" style="display:none;">
-                                <label for="question">Ask a question:</label>
-                                <input type="text" id="question" placeholder="Type your question here...">
-                                <button id="ask-button">Ask</button>
-                                <div id="chat-response" style="margin-top: 1rem;"></div>
-                            </div>
-                            <p id="uploadMessage"></p>
-                        </div>
-    
-                    </div>
-                </div>
-    
-            </div>
-        </div>
-    
-    </section>
-
-    <style>
-        .form-container {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(51, 51, 51, 0.85); /* Semi-transparent background */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-    
-        .form-container h1 {
-            font-size: 1.75rem;
-            margin-bottom: 1rem;
-        }
-    
-        label {
-            font-size: 1rem;
-            color: aliceblue;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-    
-        input[type="text"] {
-            width: 100%;
-            max-width: 500px;
-            padding: 0.75rem;
-            border: 1px solid #666;
-            border-radius: 5px;
-            background-color: #222;
-            color: aliceblue;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-    
-        input[type="text"]:focus {
-            outline: none;
-            border-color: aliceblue;
-            box-shadow: 0 0 5px aliceblue;
-        }
-    
-        button {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            color: aliceblue;
-            background-color: #b01fca;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-    
-        button:hover {
-            background-color: #5f4cf4;
-        }
-    
-        button:active {
-            transform: scale(0.98);
-        }
-    
-        p#uploadMessage {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #ddd;
-        }
-    </style>
-
-     <!-- SCRIPTS -->
-     <script src="js/jquery.min.js"></script>
-     <script src="js/bootstrap.min.js"></script>
-     <script src="js/aos.js"></script>
-     <script src="js/smoothscroll.js"></script>
-     <script src="js/custom.js"></script>
-     <script src="main.js"></script>
-
+  <!-- SCRIPTS -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/smoothscroll.js"></script>
+  <script src="main.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+  </script>
 </body>
 </html>
