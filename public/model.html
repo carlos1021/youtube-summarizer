@@ -77,11 +77,21 @@ https://www.tooplate.com/view/2119-gymso-fitness
                     <div class="hero-text mt-5 text-center">    
                         <div class="form-container" data-aos="fade-up" data-aos-delay="500">
                             <h1 class="text-white" data-aos="fade-up" data-aos-delay="700">Your Search Starts Here</h1>
-                            <form>
-                                <label for="query">Enter your search query:</label>
-                                <input type="text" id="query" name="fname" placeholder="Type something...">
-                                <button type="button" id="predict-button">Press me!</button>
+                            <form id="search-form">
+                                <label for="topic">Video Game + Topic:</label>
+                                <input type="text" id="topic" placeholder="Search... (e.g.: Jett Valorant; Mid Lane League of Legends)">
+                                <button type="submit">Search Guide</button>
                             </form>
+                            
+                            <div id="loading" style="display:none;">⏳ Loading... Please wait</div>
+                            <div id="video-container" style="margin-top: 1rem;"></div>
+                            
+                            <div id="chat-container" style="display:none;">
+                                <label for="question">Ask a question:</label>
+                                <input type="text" id="question" placeholder="Type your question here...">
+                                <button id="ask-button">Ask</button>
+                                <div id="chat-response" style="margin-top: 1rem;"></div>
+                            </div>
                             <p id="uploadMessage"></p>
                         </div>
     
