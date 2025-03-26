@@ -12,8 +12,7 @@ app = Flask(__name__)
 
 CORS(app, origins=[
     'https://summarizer-c3229.firebaseapp.com',
-    'https://summarizer-c3229.web.app',
-    'http://localhost:6760'
+    'https://summarizer-c3229.web.app'
 ],
 methods=["GET", "POST", "OPTIONS"],
 allow_headers=["Content-Type"])
@@ -25,6 +24,9 @@ TRANSCRIPT_IO_API_TOKEN = os.getenv('TRANSCRIPT_IO_API_TOKEN')
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 
+print("Loaded API_KEY:", API_KEY)
+print("Loaded TRANSCRIPT_IO_API_TOKEN:", TRANSCRIPT_IO_API_TOKEN)
+
 def search_videos(query, max_results=5, order='date'):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=API_KEY)
     search_response = youtube.search().list(
@@ -35,6 +37,7 @@ def search_videos(query, max_results=5, order='date'):
     ).execute()
 
     video_ids = [item['id']['videoId'] for item in search_response['items']]
+    print("Found video IDs:", video_ids)
     return video_ids if video_ids else None
 
 def fetch_transcript_from_io(video_id):
@@ -45,7 +48,12 @@ def fetch_transcript_from_io(video_id):
     }
     data = {"ids": [video_id]}
 
+    print(f"Sending request to youtube-transcript.io with video_id: {video_id}")
+    print("Headers:", headers)
     response = requests.post(url, headers=headers, json=data)
+    print("Transcript IO response status:", response.status_code)
+    print("Transcript IO response body:", response.text)
+
     if response.status_code == 200:
         return response.json()
     else:
@@ -56,8 +64,10 @@ def grab_transcript_text(io_response):
     try:
         tracks = io_response[0].get('tracks', [])
         if not tracks:
+            print("No tracks found in transcript response")
             return None
         transcript_entries = tracks[0].get('transcript', [])
+        print(f"Number of transcript entries: {len(transcript_entries)}")
         return ' '.join([entry['text'] for entry in transcript_entries])
     except Exception as e:
         print(f"Error processing transcript response: {e}")
@@ -68,7 +78,8 @@ def grab_results():
     try:
         data = request.get_json()
         query = data.get('query', '')
-        print(query)
+        print("Received query:", query)
+
         if not query:
             return jsonify({'error': 'Query is required'}), 400
 
@@ -84,6 +95,7 @@ def grab_results():
         if not transcript_text:
             return jsonify({'error': 'Transcript parsing failed'}), 500
 
+        print("Successfully retrieved transcript.")
         return jsonify({'transcript': transcript_text})
     except Exception as e:
         app.logger.error(f"Error processing request: {str(e)}")
