@@ -2,3 +2,4 @@ venv/
 notes/
 project/.env
 project/credentials.json
+project/vectorstore.db
