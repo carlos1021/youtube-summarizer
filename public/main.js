@@ -43,7 +43,7 @@ document.getElementById('search-form').addEventListener('submit', async function
   addLog(`🔍 Searching YouTube for query: ${topic}`);
 
   try {
-    const response = await fetch('https://youtube-summarizer-vi8d.onrender.com/build_vectorstore', {
+    const response = await fetch('https://7d34-75-63-26-115.ngrok-free.app/build_vectorstore', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ topic })
@@ -85,7 +85,7 @@ document.getElementById('ask-button').addEventListener('click', async function (
   addChatMessage("assistant", "Thinking... 🤔");
 
   try {
-    const response = await fetch('https://youtube-summarizer-vi8d.onrender.com/ask', {
+    const response = await fetch('https://7d34-75-63-26-115.ngrok-free.app/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ session_id: sessionId, question })

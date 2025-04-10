@@ -19,8 +19,8 @@ app = Flask(__name__)
 
 CORS(app, origins=[
     'https://summarizer-c3229.firebaseapp.com',
-    'https://summarizer-c3229.web.app'
-    # 'http://localhost:8000'
+    'https://summarizer-c3229.web.app',
+    'http://localhost:8000'
 ],
 methods=["GET", "POST", "OPTIONS"],
 allow_headers=["Content-Type"])
