@@ -13,9 +13,8 @@ load_dotenv()
 app = Flask(__name__)
 
 CORS(app, origins=[
-    'https://summarizer-c3229.firebaseapp.com',
-    'https://summarizer-c3229.web.app',
-    'http://localhost:3000'
+    'https://summarizertool-96202.firebaseapp.com',
+    'https://summarizertool-96202.web.app'
 ],
 methods=["GET", "POST", "OPTIONS"],
 allow_headers=["Content-Type"])
